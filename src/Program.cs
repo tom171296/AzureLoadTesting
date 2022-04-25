@@ -1,4 +1,5 @@
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json;
 using src;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton(x => new CosmosClient(""));
+builder.Services.AddSingleton(x => new CosmosClient(
+    "https://azureloadtesttvdb.documents.azure.com:443/", 
+    "oD2YdsiOKTlpfPL3Vx8bjDqak7R834B8uV8IjhwXhO8RRUJOIZSlLpV8Oijf6qEAAJNePgC9c9tRtoruE9pyTQ=="
+    ));
 builder.Services.AddTransient<CosmosAgent>();
 
 var app = builder.Build();
@@ -23,6 +27,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("setupdatabase", async (CosmosAgent cosmosAgent) =>
+{
+    await cosmosAgent.SetupDatabase();
+});
+
+app.MapPut("createweatherforecast", async (CosmosAgent cosmosAgent) =>
+{
+    await cosmosAgent.CreateWeatherForecast();
+});
+
 app.MapGet("/weatherforecast", async (CosmosAgent cosmosAgent) =>
 {
     return await cosmosAgent.GetWeatherForecastAsync();
@@ -30,8 +44,3 @@ app.MapGet("/weatherforecast", async (CosmosAgent cosmosAgent) =>
 .WithName("GetWeatherForecast");
 
 app.Run();
-
-public record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
