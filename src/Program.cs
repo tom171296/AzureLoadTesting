@@ -9,8 +9,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton(x => new CosmosClient(
-    "",
-    ""
+    Environment.GetEnvironmentVariable("ACCOUNT_ENDPOINT"),
+    Environment.GetEnvironmentVariable("ACCOUNT_KEY")
     ));
 builder.Services.AddTransient<CosmosAgent>();
 
