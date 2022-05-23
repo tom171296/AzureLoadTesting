@@ -9,8 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton(x => new CosmosClient(
-    Environment.GetEnvironmentVariable("ACCOUNT_ENDPOINT"),
-    Environment.GetEnvironmentVariable("ACCOUNT_KEY")
+    Environment.GetEnvironmentVariable("CONNECTION_STRING")
     ));
 builder.Services.AddTransient<CosmosAgent>();
 
@@ -21,9 +20,15 @@ app.UseSwaggerUI();
 
 // app.UseHttpsRedirection();
 
-app.MapGet("setupdatabase", async (CosmosAgent cosmosAgent) =>
+app.MapGet("setupdatabase", async (CosmosAgent cosmosAgent, ILogger<Program> logger) =>
 {
-    await cosmosAgent.SetupDatabase();
+    try{
+        await cosmosAgent.SetupDatabase();
+    }
+    catch(Exception e){
+        logger.LogError("Something went wrong {message}", e.Message);
+        throw;
+    }
 });
 
 app.MapPut("createweatherforecast", async (CosmosAgent cosmosAgent) =>
