@@ -1,6 +1,5 @@
 name: Github action demo
 on: [
-  push,
   workflow_dispatch
   ]
 jobs: 
