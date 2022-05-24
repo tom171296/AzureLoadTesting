@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Microsoft.Azure.Cosmos;
 using src;
 
@@ -9,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton(x => new CosmosClient(
-    Environment.GetEnvironmentVariable("CONNECTION_STRING")
+    ""
     ));
 builder.Services.AddTransient<CosmosAgent>();
 
