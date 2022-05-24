@@ -1,5 +1,8 @@
 name: Github action demo
-on: [push]
+on: [
+  push,
+  workflow_dispatch
+  ]
 jobs: 
   build-and-deploy:
     # The type of runner that the job will run on
