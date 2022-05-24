@@ -14,7 +14,7 @@ resource cosmosdb 'Microsoft.DocumentDB/databaseAccounts@2022-02-15-preview' = {
     publicNetworkAccess: 'Enabled'
     databaseAccountOfferType: 'Standard'
     capacity: {
-      totalThroughputLimit: 100
+      totalThroughputLimit: 400
     }
     locations: [
       {
