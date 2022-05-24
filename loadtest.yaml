@@ -1,5 +1,5 @@
 version: v0.1
-testName: CI test
+testName: ci_test
 testPlan: testJmeter.jmx
 description: Load test from CI
 engineInstances: 1
