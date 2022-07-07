@@ -22,6 +22,6 @@ jobs:
       - name: 'Azure Load Testing'
         uses: azure/load-testing@v1
         with: 
-          resourceGroup: 'dotnetgilde'
-          loadTestResource: 'dotnetgilde_loadtest'
+          resourceGroup: 'techbits'
+          loadTestResource: 'techbits_loadtest'
           loadTestConfigFIle: './loadtest.yaml'
