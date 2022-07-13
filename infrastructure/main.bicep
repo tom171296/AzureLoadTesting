@@ -1,8 +1,7 @@
-targetScope= 'subscription'
+targetScope = 'subscription'
 
 param targetName string
-
-var location = deployment().location
+param location string = deployment().location
 
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: targetName
@@ -34,5 +33,15 @@ module site 'testapp.bicep' = {
     targetName: targetName
     location: rg.location
     cosmosConnectionString: cosmosdb.outputs.connectionString
+  }
+}
+
+module keyvault 'keyvault.bicep' = {
+  name: 'keyvault'
+  scope: rg
+  params: {
+    targetName: targetName
+    location: rg.location
+    tenantId: tenant().tenantId
   }
 }
